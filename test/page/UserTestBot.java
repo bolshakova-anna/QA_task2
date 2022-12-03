@@ -15,24 +15,8 @@ public class UserTestBot {
         return login;
     }
 
-    public static void setLogin(String login) {
-        UserTestBot.login = login;
-    }
-
     public static String getPassword() {
         return password;
-    }
-
-    public static void setPassword(String password) {
-        UserTestBot.password = password;
-    }
-
-    public static String getName() {
-        return Name;
-    }
-
-    public static void setName(String firstName) {
-        UserTestBot.Name = firstName;
     }
 
 }

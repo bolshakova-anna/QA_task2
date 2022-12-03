@@ -1,17 +1,18 @@
 package page;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 public class MusicLayerPage extends BasePage<MusicLayerPage>{
-    public static final String musicSearchFieldXpath1 = "//*[@placeholder=\"Поиск\" and @data-l=\"t,input\"]";
-    public static final String musicSearchFieldXpath2 = "//*[@id=\"music_layer\"]/header/div/wm-search-form/wm-search-input/input";
-    public static final String musicListElementXPath = "//a[contains(@data-payload, \"artistName=Звери\")]/../..";
-    public static final String addMusicButtonXPath = "//*[@title=\"В мою музыку\"]";
-    public static final String myMusicButtonXPath = "//div[text()=\"Моя музыка\"]";
-    public static final String myMusicListInfoXpath = "//*[@id='music_layer']//wm-tracks-list//wm-track//wm-card-details/slot";
+    private static final By MUSIC_SEARCH_FIELD = By.xpath("//*[@placeholder=\"Поиск\" and @data-l=\"t,input\"]");
+    private static final By MUSIC_SEARCH_FIELD_2 = By.xpath("//*[@id=\"music_layer\"]/header/div/wm-search-form/wm-search-input/input");
+    private static final By MUSIC_LIST_ELEMENT = By.xpath("//a[contains(@data-payload, \"artistName=Звери\")]/../..");
+    private static final By ADD_MUSIC_BUTTON = By.xpath("//*[@title=\"В мою музыку\"]");
+    private static final By MY_MUSIC_BUTTON = By.xpath("//div[text()=\"Моя музыка\"]");
+    private static final By MY_MUSIC_LIST_INFO = By.xpath("//*[@id='music_layer']//wm-tracks-list//wm-track//wm-card-details/slot");
 
     public MusicLayerPage(){
         super();
@@ -19,25 +20,28 @@ public class MusicLayerPage extends BasePage<MusicLayerPage>{
 
     @Override
     protected void check() {
-    $(By.xpath(musicSearchFieldXpath1)).shouldBe(Condition.visible);
+    $(MUSIC_SEARCH_FIELD).shouldBe(Condition.visible);
     }
 
     public MusicLayerPage searchMusic(String name){
-        $(By.xpath((musicSearchFieldXpath1))).click();
-        $(By.xpath((musicSearchFieldXpath2))).val(name).pressEnter();
+        $(MUSIC_SEARCH_FIELD).click();
+        $(MUSIC_SEARCH_FIELD_2).val(name).pressEnter();
         return this;
 
     }
 
     public MusicLayerPage addMusic(){
-        $(By.xpath(musicListElementXPath)).click();
-        $(By.xpath(addMusicButtonXPath)).click();
+        $(MUSIC_LIST_ELEMENT).click();
+        $(ADD_MUSIC_BUTTON).click();
         return this;
     }
 
     public MusicLayerPage openMyMusic(){
-        $(By.xpath(myMusicButtonXPath)).click();
+        $(MY_MUSIC_BUTTON).click();
         return this;
     }
 
+    public static SelenideElement getMusicListElement() {
+        return $(MY_MUSIC_LIST_INFO);
+    }
 }

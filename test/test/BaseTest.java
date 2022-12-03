@@ -2,7 +2,11 @@ package test;
 
 import highlighter.Highlighter;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+
 import static com.codeborne.selenide.Configuration.*;
 import static com.codeborne.selenide.Configuration.browserSize;
 import static com.codeborne.selenide.Selenide.open;
@@ -16,8 +20,8 @@ public class BaseTest {
   private static  final String defaultBrowserPosition = "890x10";
   private static  final String defaultBrowserSize = "780x950";
 
-  @BeforeClass
-  public static void setupBrowser() {
+  @BeforeEach
+  public void setupBrowser() {
     timeout = defaultTimeout;
     startMaximized = defaultStartMaximized;
     browser = defaultBrowser;
@@ -26,8 +30,16 @@ public class BaseTest {
     addListener(new Highlighter());
   }
 
-  @AfterClass
-  public static void logout() {
+  public void openPage(){
+    open("/");
+  }
+
+  public void openPage(String url){
+    open(url);
+  }
+
+  @AfterEach
+  public void logout() {
     closeWebDriver();
   }
 

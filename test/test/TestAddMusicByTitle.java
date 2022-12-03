@@ -1,6 +1,8 @@
 package test;
 
-import org.junit.Test;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.openqa.selenium.By;
 import page.FeedPage;
@@ -11,12 +13,13 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
-
-public class MusicTest extends BaseTest {
+@DisplayName("После логина добавленный трек из леера музыки отображается в музыке пользователя")
+public class TestAddMusicByTitle extends BaseTest {
     private static String OKUsername = System.getProperty("OK.username", "technoPol27");
     private static String OKPassword = System.getProperty("OK.password", "technoPolis2022");
     private static String OKMusicRequest = System.getProperty("OK.musicRequest", "Звери - для тебя");
     private static String OKMusicName = System.getProperty("OK.musicName", "Для тебя");
+    public static final String url = "https://ok.ru/";
 
     /*Тест, проверяющий сценарий:
     * Залогиниться на OK.ru,
@@ -28,16 +31,17 @@ public class MusicTest extends BaseTest {
     @DisplayName("Проверка сценария добавления юзером трека Звери - Для тебя после логина")
     @Test
     public void addMusicTest(){
+        openPage(url);
         LoginPage loginpage = new LoginPage();
         FeedPage feedPage = new FeedPage();
-        loginpage.openPage(loginpage,loginpage.url)
-                        .login(OKUsername,OKPassword);
+
+        loginpage.login(OKUsername,OKPassword);
 
         MusicLayerPage musicLayerPage = feedPage.openMusicFromToolbar(); //возвращает MusicLayerPage
         musicLayerPage.searchMusic(OKMusicRequest)
         .addMusic()
         .openMyMusic();
-        $(By.xpath(musicLayerPage.myMusicListInfoXpath))
+        musicLayerPage.getMusicListElement()
             .shouldHave(text(OKMusicName))
             .shouldBe(visible);
     }
